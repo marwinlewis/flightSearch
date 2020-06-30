@@ -1,0 +1,32 @@
+<article class="flight" *ngFor="let flight of flights">
+    <section class="flight-name">
+        <p>{{flight.name}}</p>
+        <p>{{flight.flightNo}}</p>
+    </section>
+    <section class="flight-time">
+        <span class="flight-time-departure">{{flight.departureTime}}</span><span class="sep">&nbsp;&ndash;&nbsp;</span>
+        <span class="flight-time-arival">{{flight.arrivalTime}}</span>
+    </section>
+    <section class="flight-duration">{{getDuration(flight.date + " " + flight.departureTime, flight.date + " " + flight.arrivalTime)}}</section>
+    <section class="flight-type">Non-stop</section>
+    <section class="flight-price">
+        <span class="flight-price-currency">$</span>
+        {{flight.price}}
+    </section>
+</article>
+
+<!-- <article class="result">
+    <section class="result-logo">
+        <img src="https://www.gstatic.com/flights/airline_logos/70px/SG.png" />
+    </section>
+    <section class="result-time">
+        <span class="result-time-departure">7:20</span><span class="sep">&nbsp;&ndash;&nbsp;</span>
+        <span class="result-time-arival">9:35</span>
+    </section>
+    <section class="result-duration">2 h 15 m</section>
+    <section class="result-type">Non-stop</section>
+    <section class="result-price">
+        <span class="result-price-currency">$</span>
+        6,785
+    </section>
+</article> -->
