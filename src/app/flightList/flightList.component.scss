@@ -5,9 +5,14 @@
     justify-content: space-between;
     width: 100%;
     margin: 1em 0;
+    border-bottom: 1px solid lightgray;
 
     > section{
         padding: 0 1em;
+    }
+
+    button{
+        display: none;
     }
 
     &:first-of-type{
@@ -16,5 +21,23 @@
 
     &:last-of-type{
         margin-bottom: 0;
+    }
+
+    &:hover{
+        border-bottom: 1px solid #673ab7;
+
+        button{
+            display: inline-block;
+        }
+    }
+
+    section{
+        &:last-child{
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+    &:last-child{
+        border-bottom: none;
     }
 }

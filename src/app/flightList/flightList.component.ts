@@ -14,7 +14,7 @@ export class FlightListComponent implements OnInit {
   constructor(private _flightService: FlightService) { }
 
   ngOnInit(){
-    
+    this._flightService.result$.subscribe(data => this.flights = data);
   }
 
   getDuration(timeDeparture, timeArrival) {

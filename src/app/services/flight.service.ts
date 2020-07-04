@@ -4,6 +4,7 @@ import { IFlight } from '../models/IFlight';
 import { IBookingInformation } from '../models/IBookingInformation';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,9 @@ import { map } from 'rxjs/operators';
 export class FlightService {
 
     private _url: string = "https://tw-frontenders.firebaseio.com/advFlightSearch.json";
+
+    private _resultSource = new Subject<IFlight[]>();
+    result$ = this._resultSource.asObservable();
 
     constructor(private http: HttpClient) { }
 
@@ -38,11 +42,16 @@ export class FlightService {
         data.map(data => {
           dateDataDeparture = new Date(data.date);
 
-          if(dateDataDeparture.getTime() == dateBIDeparture.getTime()){
+          if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.origin && bookingInformation.destination==data.destination){
+            data.price = Number(data.price) * bookingInformation.passengers;
             result.push(data);
           }
         })
         return [...new Set(result)];
       })));
+    }
+
+    sendResult(result: IFlight[]){
+      this._resultSource.next(result);
     }
 }

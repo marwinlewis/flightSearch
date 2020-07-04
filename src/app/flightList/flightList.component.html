@@ -1,16 +1,25 @@
 <article class="flight" *ngFor="let flight of flights">
-    <section class="flight-name">
+    <section class="flight-name col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2">
         <p>{{flight.name}}</p>
         <p>{{flight.flightNo}}</p>
     </section>
-    <section class="flight-time">
-        <span class="flight-time-departure">{{flight.departureTime}}</span><span class="sep">&nbsp;&ndash;&nbsp;</span>
-        <span class="flight-time-arival">{{flight.arrivalTime}}</span>
+    <section class="flight-time col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2">
+        <p class="flight-time-departure">{{flight.departureTime}}</p>
+        <p>{{flight.origin}}</p>
     </section>
-    <section class="flight-duration">{{getDuration(flight.date + " " + flight.departureTime, flight.date + " " + flight.arrivalTime)}}</section>
-    <section class="flight-type">Non-stop</section>
-    <section class="flight-price">
+    <section class="flight-time col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2">
+        <p class="flight-time-arrival">{{flight.arrivalTime}}</p>
+        <p>{{flight.destination}}</p>
+    </section>
+    <section class="flight-duration col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2">
+        <p>{{getDuration(flight.date + " " + flight.departureTime, flight.date + " " + flight.arrivalTime)}}</p>
+        <p>Non-stop</p>
+    </section>
+    <section class="flight-price col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2">
         <span class="flight-price-currency">$</span>
         {{flight.price}}
+    </section>
+    <section class="flight-book col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2">
+        <button type="submit" mat-raised-button color="primary" >Book</button>
     </section>
 </article>

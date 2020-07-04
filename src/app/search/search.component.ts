@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FlightService } from '../services/flight.service';
 import { Observable } from 'rxjs';
@@ -6,6 +6,7 @@ import { startWith, map } from 'rxjs/operators';
 import { IBookingInformation } from '../models/IBookingInformation';
 import { IPassengers } from '../models/IPassengers';
 import { FlightListComponent } from '../flightList/flightList.component';
+import { IFlight } from '../models/IFlight';
 
 @Component({
   selector: 'app-search',
@@ -41,6 +42,8 @@ export class SearchComponent implements OnInit {
     {value: 3, viewValue: 'Three'}
   ];
 
+  public result: IFlight[] = [];
+
   constructor(private _flightService: FlightService) { }
 
   ngOnInit(): void {
@@ -55,11 +58,8 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  onSubmit(): void {
-    this._flightService.flightSearch(this._getBookingInformation()).subscribe(data=> {
-      //this._flightList.flights = data;
-      console.log(data);
-    });
+  onSubmit(): void {    
+    this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data));
   }
 
   private _filterCities(value: string): String[] {
