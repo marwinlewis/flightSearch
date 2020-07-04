@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FlightService } from '../services/flight.service';
+import { IFlight } from '../models/IFlight';
 
 @Component({
   selector: 'app-flightList',
@@ -8,13 +9,12 @@ import { FlightService } from '../services/flight.service';
 })
 export class FlightListComponent implements OnInit {
 
-  public flights = [];
+  public flights: IFlight[] = [];
 
   constructor(private _flightService: FlightService) { }
 
   ngOnInit(){
-    this._flightService.getFlights()
-        .subscribe(data => this.flights = data);
+    
   }
 
   getDuration(timeDeparture, timeArrival) {
