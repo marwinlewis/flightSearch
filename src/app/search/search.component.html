@@ -1,27 +1,57 @@
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="search-origin"><i class="fa fa-circle-thin" aria-hidden="true"></i></span>
-    </div>
-    <input type="text" class="form-control" placeholder="Origin" aria-label="Origin" aria-describedby="search-origin">
-</div>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="search-destination"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-    </div>
-    <input type="text" class="form-control" placeholder="Destination" aria-label="Destination" aria-describedby="search-destination">
-</div>
-<label for="search-date-departure">Departure</label>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="search-date-departure"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-    </div>
-    <input type="date" class="form-control" placeholder="Date" aria-label="Date" aria-describedby="search-date-departure">
-</div>
-<label for="search-date-return">Return</label>
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="search-date-return"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-    </div>
-    <input type="date" class="form-control" placeholder="Date" aria-label="Date" aria-describedby="search-date-return">
-</div>
-<button type="button" class="btn btn-primary">Search</button>
+<form [formGroup]="formBookingInformation" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field>
+      <mat-label>Origin</mat-label>
+      <input matInput type="text" formControlName="inputOrigin" [matAutocomplete]="inputAutoOrigin">
+      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete #inputAutoOrigin="matAutocomplete">
+        <mat-option *ngFor="let city of _filteredCitiesOrigin | async" [value]="city">
+          {{city}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Destination</mat-label>
+      <input matInput type="text" formControlName="inputDestination" [matAutocomplete]="inputAutoDestination">
+      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete #inputAutoDestination="matAutocomplete">
+        <mat-option *ngFor="let city of _filteredCitiesDestination | async" [value]="city">
+          {{city}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Departure date</mat-label>
+        <input matInput type="text" formControlName="inputDateDeparture" [matDatepicker]="dateDeparture">
+        <mat-datepicker-toggle matSuffix [for]="dateDeparture"></mat-datepicker-toggle>
+        <mat-datepicker #dateDeparture></mat-datepicker>
+      </mat-form-field>
+  </div>
+  <div class="input-group mb-3">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Return date</mat-label>
+      <input matInput type="text" formControlName="inputDateReturn" [matDatepicker]="dateReturn">
+      <mat-datepicker-toggle matSuffix [for]="dateReturn"></mat-datepicker-toggle>
+      <mat-datepicker #dateReturn></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Passengers</mat-label>
+      <mat-select formControlName="selectPassengers">
+        <mat-option *ngFor="let passenger of passengers" [value]="passenger.value">
+          {{passenger.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <button type="submit" mat-raised-button color="primary" >Search</button>
+</form>
