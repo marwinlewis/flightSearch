@@ -35,21 +35,48 @@ export class FlightService {
 
     public flightSearch(bookingInformation: IBookingInformation){
       let result: IFlight[] = [];
-      const dateBIDeparture = new Date(bookingInformation.departure);
+      const dateBIDeparture = new Date(bookingInformation.departureDate);
       let dateDataDeparture = new Date();
 
       return this._getApi().pipe(map((data=> {
         data.map(data => {
           dateDataDeparture = new Date(data.date);
+          data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
 
           if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.origin && bookingInformation.destination==data.destination){
-            data.price = Number(data.price) * bookingInformation.passengers;
             result.push(data);
           }
         })
+
+        if(bookingInformation.return==true && bookingInformation.returnDate.getTime() > bookingInformation.departureDate.getTime()){
+          data.map(data => {
+            dateDataDeparture = new Date(data.date);
+            data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
+  
+            if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.destination && bookingInformation.destination==data.origin){
+              result.push(data);
+            }
+          })
+        }
         return [...new Set(result)];
       })));
     }
+
+    // private getFlight(data: IFlight[], bookingInformation: IBookingInformation, origin: string, destination: string){
+    //   let result: IFlight[] = [];
+    //   const dateBIDeparture = new Date(bookingInformation.departureDate);
+    //   let dateDataDeparture = new Date();
+
+    //   data.map(data => {
+    //     dateDataDeparture = new Date(data.date);
+    //       data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
+
+    //       if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.origin && bookingInformation.destination==data.destination){
+    //         result.push(data);
+    //       }
+    //   })
+    //   return [...new Set(result)];
+    // }
 
     sendResult(result: IFlight[]){
       this._resultSource.next(result);

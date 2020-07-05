@@ -1,5 +1,11 @@
 <form [formGroup]="formBookingInformation" (ngSubmit)="onSubmit()">
   <div>
+    <mat-button-toggle-group formControlName="inputReturn">
+      <mat-button-toggle value="false">One Way</mat-button-toggle>
+      <mat-button-toggle value="true">Return</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div>
     <mat-form-field>
       <mat-label>Origin</mat-label>
       <input matInput type="text" formControlName="inputOrigin" [matAutocomplete]="inputAutoOrigin">

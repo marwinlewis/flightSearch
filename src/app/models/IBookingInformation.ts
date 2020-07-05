@@ -1,7 +1,8 @@
 export interface IBookingInformation {
     origin: string;
     destination: string;
-    departure: Date;
-    return?: Date;
+    departureDate: Date;
+    returnDate?: Date;
     passengers: number;
+    return: boolean;
 };

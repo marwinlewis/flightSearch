@@ -20,7 +20,8 @@ export class SearchComponent implements OnInit {
     inputDestination: new FormControl(),
     inputDateDeparture: new FormControl(),
     inputDateReturn: new FormControl(),
-    selectPassengers: new FormControl()
+    selectPassengers: new FormControl(),
+    inputReturn: new FormControl()
   });
 
   private _cities: String[] = [];
@@ -31,9 +32,10 @@ export class SearchComponent implements OnInit {
   private _bookingInformation: IBookingInformation = {
     origin: '',
     destination: '',
-    departure: new Date(),
-    return: new Date(),
-    passengers: 0
+    departureDate: new Date(),
+    returnDate: new Date(),
+    passengers: 0,
+    return: false
   };
 
   private passengers: IPassengers[] = [
@@ -71,9 +73,10 @@ export class SearchComponent implements OnInit {
   private _getBookingInformation(){
     this._bookingInformation.origin = this.formBookingInformation.controls.inputOrigin.value;
     this._bookingInformation.destination = this.formBookingInformation.controls.inputDestination.value;
-    this._bookingInformation.departure = this.formBookingInformation.controls.inputDateDeparture.value;
-    this._bookingInformation.return = this.formBookingInformation.controls.inputDateReturn.value;
+    this._bookingInformation.departureDate = this.formBookingInformation.controls.inputDateDeparture.value;
+    this._bookingInformation.returnDate = this.formBookingInformation.controls.inputDateReturn.value;
     this._bookingInformation.passengers = this.formBookingInformation.controls.selectPassengers.value;
+    this._bookingInformation.return = this.formBookingInformation.controls.inputReturn.value == "false" ? false : true;
 
     return this._bookingInformation;
   }
