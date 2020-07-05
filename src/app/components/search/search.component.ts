@@ -1,12 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { FlightService } from '../services/flight.service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FlightService } from '../../services/flight.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { IBookingInformation } from '../models/IBookingInformation';
-import { IPassengers } from '../models/IPassengers';
-import { FlightListComponent } from '../flightList/flightList.component';
-import { IFlight } from '../models/IFlight';
+import { IBookingInformation } from '../../models/IBookingInformation';
+import { IPassengers } from '../../models/IPassengers';
+import { IFlight } from '../../models/IFlight';
 
 @Component({
   selector: 'app-search',
@@ -16,24 +15,25 @@ import { IFlight } from '../models/IFlight';
 
 export class SearchComponent implements OnInit {
   formBookingInformation = new FormGroup({
-    inputOrigin: new FormControl(),
-    inputDestination: new FormControl(),
-    inputDateDeparture: new FormControl(),
-    inputDateReturn: new FormControl(),
-    selectPassengers: new FormControl()
+    inputOrigin: new FormControl('',Validators.required),
+    inputDestination: new FormControl('',Validators.required),
+    inputDateDeparture: new FormControl('',Validators.required),
+    inputDateReturn: new FormControl({value: '', disabled: true},Validators.required),
+    selectPassengers: new FormControl(1),
+    inputReturn: new FormControl(false)
   });
 
   private _cities: String[] = [];
   private _filteredCitiesOrigin: Observable<String[]>;
   private _filteredCitiesDestination: Observable<String[]>;
-  private _flightList: FlightListComponent;
 
   private _bookingInformation: IBookingInformation = {
     origin: '',
     destination: '',
-    departure: new Date(),
-    return: new Date(),
-    passengers: 0
+    departureDate: new Date(),
+    returnDate: new Date(),
+    passengers: 0,
+    return: false
   };
 
   private passengers: IPassengers[] = [
@@ -58,8 +58,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  onSubmit(): void {    
-    this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data));
+  onSubmit(): void {
+    if(this.formBookingInformation.status==="VALID"){
+      this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data));
+    }
   }
 
   private _filterCities(value: string): String[] {
@@ -71,10 +73,15 @@ export class SearchComponent implements OnInit {
   private _getBookingInformation(){
     this._bookingInformation.origin = this.formBookingInformation.controls.inputOrigin.value;
     this._bookingInformation.destination = this.formBookingInformation.controls.inputDestination.value;
-    this._bookingInformation.departure = this.formBookingInformation.controls.inputDateDeparture.value;
-    this._bookingInformation.return = this.formBookingInformation.controls.inputDateReturn.value;
+    this._bookingInformation.departureDate = this.formBookingInformation.controls.inputDateDeparture.value;
+    this._bookingInformation.returnDate = this.formBookingInformation.controls.inputDateReturn.value;
     this._bookingInformation.passengers = this.formBookingInformation.controls.selectPassengers.value;
+    this._bookingInformation.return = (this.formBookingInformation.controls.inputReturn.value=="false" || this.formBookingInformation.controls.inputReturn.value==false) ? false: true;
 
     return this._bookingInformation;
+  }
+
+  private _toggleClicked(){
+    (this.formBookingInformation.controls.inputReturn.value=="false" || this.formBookingInformation.controls.inputReturn.value==false) ? this.formBookingInformation.controls.inputDateReturn.disable() : this.formBookingInformation.controls.inputDateReturn.enable();
   }
 }

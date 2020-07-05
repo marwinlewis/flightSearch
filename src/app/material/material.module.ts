@@ -5,7 +5,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const MaterialComponents = [
   MatAutocompleteModule,
@@ -14,7 +15,8 @@ const MaterialComponents = [
   MatFormFieldModule,
   MatInputModule,
   MatButtonModule,
-  MatSelectModule
+  MatSliderModule,
+  MatButtonToggleModule
 ];
 
 @NgModule({

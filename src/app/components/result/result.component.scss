@@ -1,0 +1,46 @@
+@import '../../sass/variable';
+@import '../../sass/mixin';
+
+.results{
+    &:not(:first-child){
+        margin-top: 5em;
+    }
+
+    @include query-max(lg){
+        &:first-child{
+            margin-top: 3em;
+        }
+    }
+
+    .flight{
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin: 1em 0;
+        border-bottom: 1px solid lightgray;
+    
+        > section{
+            padding: 0 1em;
+        }
+    
+        &:first-of-type{
+            margin-top: 0;
+        }
+    
+        &:last-of-type{
+            margin-bottom: 0;
+        }
+    
+        section{
+            &:last-child{
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+        &:last-child{
+            border-bottom: none;
+        }
+    }
+}
