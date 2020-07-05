@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FlightService } from '../services/flight.service';
+import { FlightService } from '../../services/flight.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { IBookingInformation } from '../models/IBookingInformation';
-import { IPassengers } from '../models/IPassengers';
-import { IFlight } from '../models/IFlight';
+import { IBookingInformation } from '../../models/IBookingInformation';
+import { IPassengers } from '../../models/IPassengers';
+import { IFlight } from '../../models/IFlight';
 
 @Component({
   selector: 'app-search',

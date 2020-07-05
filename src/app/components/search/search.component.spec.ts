@@ -16,10 +16,11 @@ describe('SearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.detectChanges();    
   });
 
   it('should create', () => {
+    console.log(component);
     expect(component).toBeTruthy();
   });
 });

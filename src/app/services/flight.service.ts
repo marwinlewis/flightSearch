@@ -47,20 +47,13 @@ export class FlightService {
           if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.origin && bookingInformation.destination==data.destination){
             oneWay.push(data);
           }
-        })
 
-        console.log(!!bookingInformation.return);
-
-        if(bookingInformation.return==true && bookingInformation.returnDate.getTime() > bookingInformation.departureDate.getTime()){
-          data.map(data => {
-            dateDataDeparture = new Date(data.date);
-            data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
-  
+          if(bookingInformation.return==true && bookingInformation.returnDate.getTime() > bookingInformation.departureDate.getTime()){
             if(dateDataDeparture.getTime() == bookingInformation.returnDate.getTime() && bookingInformation.origin==data.destination && bookingInformation.destination==data.origin){
               returnWay.push(data);
             }
-          })
-        }
+          }
+        })
         return [[...new Set(oneWay)],[...new Set(returnWay)]];
       })));
     }
