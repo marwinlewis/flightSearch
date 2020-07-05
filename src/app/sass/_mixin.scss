@@ -1,0 +1,38 @@
+// Flexible media query min mixin
+// Usage: @include query-min(sm, ±value);
+@mixin query-min($breakpoint, $p: 0) {
+    @if map-has-key($grid-breakpoints, $breakpoint) {
+        @media (min-width: #{map-get($grid-breakpoints, $breakpoint) + $p}) {
+            @content;
+        }
+    }
+    @else {
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. " + "Please make sure it is defined in `$grid-breakpoints` map.";
+    }
+}
+
+// Flexible media query max mixin
+// Usage: @include query-max(lg, ±value);
+@mixin query-max($breakpoint, $p: 0) {
+    @if map-has-key($grid-breakpoints, $breakpoint) {
+        @media (max-width: #{map-get($grid-breakpoints, $breakpoint) + $p}) {
+            @content;
+        }
+    }
+    @else {
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. " + "Please make sure it is defined in `$grid-breakpoints` map.";
+    }
+}
+
+// Flexible media query between max-min mixin
+// Usage: @include query-between(max value, min value, ±value, ±value);
+@mixin query-between($breakpoint-min, $breakpoint-max, $p1: 0, $p2: 0) {
+    @if map-has-key($grid-breakpoints, $breakpoint-max) and map-has-key($grid-breakpoints, $breakpoint-min) {
+        @media (min-width: #{map-get($grid-breakpoints, $breakpoint-min) + $p1}) and (max-width: #{map-get($grid-breakpoints, $breakpoint-max) + $p2}){
+            @content;
+        }
+    }
+    @else {
+        @warn "Unfortunately, no value could be retrieved from `#{$breakpoint-max or $breakpoint-min}`. " + "Please make sure it is defined in `$grid-breakpoints` map.";
+    }
+}

@@ -4,10 +4,10 @@ import { IFlight } from '../models/IFlight';
 
 @Component({
   selector: 'app-flightList',
-  templateUrl: './flightList.component.html',
-  styleUrls: ['./flightList.component.scss']
+  templateUrl: './result.component.html',
+  styleUrls: ['./result.component.scss']
 })
-export class FlightListComponent implements OnInit {
+export class ResultComponent implements OnInit {
 
   public results: IFlight[][];
 

@@ -1,6 +1,15 @@
+@import '../sass/variable';
+@import '../sass/mixin';
+
 .results{
     &:not(:first-child){
         margin-top: 5em;
+    }
+
+    @include query-max(lg){
+        &:first-child{
+            margin-top: 3em;
+        }
     }
 
     .flight{
@@ -22,10 +31,6 @@
     
         &:last-of-type{
             margin-bottom: 0;
-        }
-    
-        &:hover{
-            border-bottom: 1px solid #673ab7;
         }
     
         section{

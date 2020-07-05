@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FlightService } from '../services/flight.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { IBookingInformation } from '../models/IBookingInformation';
 import { IPassengers } from '../models/IPassengers';
-import { FlightListComponent } from '../flightList/flightList.component';
 import { IFlight } from '../models/IFlight';
 
 @Component({
@@ -27,7 +26,6 @@ export class SearchComponent implements OnInit {
   private _cities: String[] = [];
   private _filteredCitiesOrigin: Observable<String[]>;
   private _filteredCitiesDestination: Observable<String[]>;
-  private _flightList: FlightListComponent;
 
   private _bookingInformation: IBookingInformation = {
     origin: '',
