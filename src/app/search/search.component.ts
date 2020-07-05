@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FlightService } from '../services/flight.service';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -16,12 +16,12 @@ import { IFlight } from '../models/IFlight';
 
 export class SearchComponent implements OnInit {
   formBookingInformation = new FormGroup({
-    inputOrigin: new FormControl(),
-    inputDestination: new FormControl(),
-    inputDateDeparture: new FormControl(),
-    inputDateReturn: new FormControl(),
-    selectPassengers: new FormControl(),
-    inputReturn: new FormControl({disabled: true})
+    inputOrigin: new FormControl('',Validators.required),
+    inputDestination: new FormControl('',Validators.required),
+    inputDateDeparture: new FormControl('',Validators.required),
+    inputDateReturn: new FormControl({value: '', disabled: true},Validators.required),
+    selectPassengers: new FormControl(1),
+    inputReturn: new FormControl(false)
   });
 
   private _cities: String[] = [];
@@ -60,8 +60,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  onSubmit(): void {    
-    this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data));
+  onSubmit(): void {
+    if(this.formBookingInformation.status==="VALID"){
+      this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data));
+    }
   }
 
   private _filterCities(value: string): String[] {
@@ -76,15 +78,12 @@ export class SearchComponent implements OnInit {
     this._bookingInformation.departureDate = this.formBookingInformation.controls.inputDateDeparture.value;
     this._bookingInformation.returnDate = this.formBookingInformation.controls.inputDateReturn.value;
     this._bookingInformation.passengers = this.formBookingInformation.controls.selectPassengers.value;
-    this._bookingInformation.return = this.formBookingInformation.controls.inputReturn.value == "false" ? false : true;
-console.log(this._bookingInformation.passengers);
+    this._bookingInformation.return = (this.formBookingInformation.controls.inputReturn.value=="false" || this.formBookingInformation.controls.inputReturn.value==false) ? false: true;
+
     return this._bookingInformation;
   }
 
-  // getSliderTickInterval(): number | 'auto' {
-  //   if (this.showTicks) {
-  //     return this.autoTicks ? 'auto' : this.tickInterval;
-  //   }
-  //   return 0;
-  // }
+  private _toggleClicked(){
+    (this.formBookingInformation.controls.inputReturn.value=="false" || this.formBookingInformation.controls.inputReturn.value==false) ? this.formBookingInformation.controls.inputDateReturn.disable() : this.formBookingInformation.controls.inputDateReturn.enable();
+  }
 }

@@ -49,6 +49,8 @@ export class FlightService {
           }
         })
 
+        console.log(!!bookingInformation.return);
+
         if(bookingInformation.return==true && bookingInformation.returnDate.getTime() > bookingInformation.departureDate.getTime()){
           data.map(data => {
             dateDataDeparture = new Date(data.date);

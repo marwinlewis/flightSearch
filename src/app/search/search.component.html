@@ -1,8 +1,8 @@
 <h1 class="app-title">FlightSearch</h1>
 <form [formGroup]="formBookingInformation" (ngSubmit)="onSubmit()">
   <div>
-    <mat-button-toggle-group formControlName="inputReturn">
-      <mat-button-toggle value="false">One Way</mat-button-toggle>
+    <mat-button-toggle-group formControlName="inputReturn" (click)="this._toggleClicked();">
+      <mat-button-toggle checked value="false">One Way</mat-button-toggle>
       <mat-button-toggle value="true">Return</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
@@ -51,7 +51,7 @@
     </mat-form-field>
   </div>
   <div>
-    <p>Passengers: {{formBookingInformation.controls.selectPassengers.value}}</p>
+    <p>Passenger(s): {{formBookingInformation.controls.selectPassengers.value}}</p>
     <mat-slider color="primary" formControlName="selectPassengers"
         [invert]="false"
         [max]="100"
