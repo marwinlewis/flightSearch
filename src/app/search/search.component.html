@@ -1,3 +1,4 @@
+<h1 class="app-title">FlightSearch</h1>
 <form [formGroup]="formBookingInformation" (ngSubmit)="onSubmit()">
   <div>
     <mat-button-toggle-group formControlName="inputReturn">
@@ -50,14 +51,16 @@
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Passengers</mat-label>
-      <mat-select formControlName="selectPassengers">
-        <mat-option *ngFor="let passenger of passengers" [value]="passenger.value">
-          {{passenger.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <p>Passengers: {{formBookingInformation.controls.selectPassengers.value}}</p>
+    <mat-slider color="primary" formControlName="selectPassengers"
+        [invert]="false"
+        [max]="100"
+        [min]="1"
+        [step]="1"
+        [thumbLabel]="true"
+        [tickInterval]="1"
+        [vertical]="false">
+    </mat-slider>
   </div>
   <button type="submit" mat-raised-button color="primary" >Search</button>
 </form>

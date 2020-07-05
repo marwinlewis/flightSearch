@@ -9,12 +9,32 @@ import { IFlight } from '../models/IFlight';
 })
 export class FlightListComponent implements OnInit {
 
-  public flights: IFlight[] = [];
+  public results: IFlight[][];
+
+  private isReturn = false;
+
+  private oneWay = {
+    origin: '',
+    destination: ''
+  }
+  private returnWay = {
+    origin: '',
+    destination: ''
+  }
 
   constructor(private _flightService: FlightService) { }
 
   ngOnInit(){
-    this._flightService.result$.subscribe(data => this.flights = data);
+    this._flightService.result$.subscribe(data => {
+      this.results = data;
+      this.oneWay.origin = data[0][0].origin;
+      this.oneWay.destination = data[0][0].destination;
+
+      this.isReturn = data[1].length > 0 ? true : false;
+
+      this.returnWay.origin = this.isReturn ? data[1][0].origin : null;
+      this.returnWay.destination = this.isReturn ? data[1][0].destination : null;
+    });
   }
 
   getDuration(timeDeparture, timeArrival) {

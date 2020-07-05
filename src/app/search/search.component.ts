@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit {
     inputDateDeparture: new FormControl(),
     inputDateReturn: new FormControl(),
     selectPassengers: new FormControl(),
-    inputReturn: new FormControl()
+    inputReturn: new FormControl({disabled: true})
   });
 
   private _cities: String[] = [];
@@ -77,7 +77,14 @@ export class SearchComponent implements OnInit {
     this._bookingInformation.returnDate = this.formBookingInformation.controls.inputDateReturn.value;
     this._bookingInformation.passengers = this.formBookingInformation.controls.selectPassengers.value;
     this._bookingInformation.return = this.formBookingInformation.controls.inputReturn.value == "false" ? false : true;
-
+console.log(this._bookingInformation.passengers);
     return this._bookingInformation;
   }
+
+  // getSliderTickInterval(): number | 'auto' {
+  //   if (this.showTicks) {
+  //     return this.autoTicks ? 'auto' : this.tickInterval;
+  //   }
+  //   return 0;
+  // }
 }

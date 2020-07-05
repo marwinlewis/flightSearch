@@ -13,7 +13,7 @@ export class FlightService {
 
     private _url: string = "https://tw-frontenders.firebaseio.com/advFlightSearch.json";
 
-    private _resultSource = new Subject<IFlight[]>();
+    private _resultSource = new Subject<IFlight[][]>();
     result$ = this._resultSource.asObservable();
 
     constructor(private http: HttpClient) { }
@@ -34,7 +34,8 @@ export class FlightService {
     }
 
     public flightSearch(bookingInformation: IBookingInformation){
-      let result: IFlight[] = [];
+      let oneWay: IFlight[] = [];
+      let returnWay: IFlight[] = [];
       const dateBIDeparture = new Date(bookingInformation.departureDate);
       let dateDataDeparture = new Date();
 
@@ -44,7 +45,7 @@ export class FlightService {
           data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
 
           if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.origin && bookingInformation.destination==data.destination){
-            result.push(data);
+            oneWay.push(data);
           }
         })
 
@@ -53,32 +54,16 @@ export class FlightService {
             dateDataDeparture = new Date(data.date);
             data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
   
-            if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.destination && bookingInformation.destination==data.origin){
-              result.push(data);
+            if(dateDataDeparture.getTime() == bookingInformation.returnDate.getTime() && bookingInformation.origin==data.destination && bookingInformation.destination==data.origin){
+              returnWay.push(data);
             }
           })
         }
-        return [...new Set(result)];
+        return [[...new Set(oneWay)],[...new Set(returnWay)]];
       })));
     }
 
-    // private getFlight(data: IFlight[], bookingInformation: IBookingInformation, origin: string, destination: string){
-    //   let result: IFlight[] = [];
-    //   const dateBIDeparture = new Date(bookingInformation.departureDate);
-    //   let dateDataDeparture = new Date();
-
-    //   data.map(data => {
-    //     dateDataDeparture = new Date(data.date);
-    //       data.price = Number(data.price) * (bookingInformation.passengers <=0 ? 1 : bookingInformation.passengers);
-
-    //       if(dateDataDeparture.getTime() == dateBIDeparture.getTime() && bookingInformation.origin==data.origin && bookingInformation.destination==data.destination){
-    //         result.push(data);
-    //       }
-    //   })
-    //   return [...new Set(result)];
-    // }
-
-    sendResult(result: IFlight[]){
+    sendResult(result: IFlight[][]){
       this._resultSource.next(result);
     }
 }
