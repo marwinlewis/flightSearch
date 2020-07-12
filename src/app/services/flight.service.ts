@@ -59,7 +59,7 @@ export class FlightService {
           this._updateDirectFlightData(bookingInformation, apiFlightData);
         })
         this._updateConnectingFlights(bookingInformation, apiData);
-        return [[...new Set(this._flightData.oneWay)],[...new Set(this._flightData.returnWay)]];
+        return [[...this._flightData.oneWay],[...this._flightData.returnWay]];
       }));
     }
 
@@ -93,9 +93,9 @@ export class FlightService {
 
         if(bookingInformation.departureDate.getTime() == dataDepartureDate.getTime() && bookingInformation.origin==apiFlightData.origin || bookingInformation.destination==apiFlightData.destination){
           if(!(bookingInformation.origin==apiFlightData.origin && bookingInformation.destination==apiFlightData.destination)){
-            if(bookingInformation.origin==apiFlightData.origin && secondFlightFound==false){
+            if(bookingInformation.origin==apiFlightData.origin){
               apiData.map(newApiFlightData=>{
-                if(apiFlightData.destination==newApiFlightData.origin && newApiFlightData.destination==bookingInformation.destination && new Date(apiFlightData.date + " " + apiFlightData.arrivalTime) < new Date(newApiFlightData.date + " " + newApiFlightData.departureTime)){
+                if(apiFlightData.destination==newApiFlightData.origin && newApiFlightData.destination==bookingInformation.destination && new Date(apiFlightData.date + " " + apiFlightData.arrivalTime) < new Date(newApiFlightData.date + " " + newApiFlightData.departureTime) && secondFlightFound==false){
                   this._flightData.oneWay.push(apiFlightData); //first flight
                   this._flightData.oneWay.push(newApiFlightData); //second flight
                   secondFlightFound=true;
