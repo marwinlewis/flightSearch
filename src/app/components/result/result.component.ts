@@ -26,14 +26,7 @@ export class ResultComponent implements OnInit {
 
   ngOnInit(){
     this._flightService.result$.subscribe(data => {
-      this.results = data;
-      this.oneWay.origin = data[0][0].origin;
-      this.oneWay.destination = data[0][0].destination;
-
-      this.isReturn = data[1].length > 0 ? true : false;
-
-      this.returnWay.origin = this.isReturn ? data[1][0].origin : null;
-      this.returnWay.destination = this.isReturn ? data[1][0].destination : null;
+      this._updateResult(data);
     });
   }
 
@@ -47,5 +40,16 @@ export class ResultComponent implements OnInit {
     let min = Math.round(((difference as any % 86400000) % 3600000) / 60000);;
 
     return hours + " hrs " + min + " min";
+  }
+
+  private _updateResult(data){
+    this.results = data;
+    this.oneWay.origin = data[0][0].origin;
+    this.oneWay.destination = data[0][0].destination;
+
+    this.isReturn = data[1].length > 0 ? true : false;
+
+    this.returnWay.origin = this.isReturn ? data[1][0].origin : null;
+    this.returnWay.destination = this.isReturn ? data[1][0].destination : null;
   }
 }
