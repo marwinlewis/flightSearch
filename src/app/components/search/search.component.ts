@@ -36,12 +36,6 @@ export class SearchComponent implements OnInit {
     return: false
   };
 
-  private passengers: IPassengers[] = [
-    {value: 1, viewValue: 'One'},
-    {value: 2, viewValue: 'Two'},
-    {value: 3, viewValue: 'Three'}
-  ];
-
   public result: IFlight[] = [];
 
   constructor(private _flightService: FlightService) { }
@@ -60,7 +54,7 @@ export class SearchComponent implements OnInit {
 
   onSubmit(): void {
     if(this.formBookingInformation.status==="VALID"){
-      this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data));
+      this._flightService.flightSearch(this._getBookingInformation()).subscribe(data => this._flightService.sendResult(data, this._getBookingInformation()));
     }
   }
 

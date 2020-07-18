@@ -6,5 +6,5 @@ export interface IFlight {
     flightNo: string,
     name: string,
     origin: string,
-    price: Number
+    price: number
 }

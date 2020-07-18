@@ -16,6 +16,7 @@ export class FlightService {
 
     private _resultSource = new Subject<IFlight[][]>();
     result$ = this._resultSource.asObservable();
+    
 
     private _flightData: {
       oneWay: IFlight[],
@@ -96,6 +97,25 @@ export class FlightService {
             if(bookingInformation.origin==apiFlightData.origin){
               apiData.map(newApiFlightData=>{
                 if(apiFlightData.destination==newApiFlightData.origin && newApiFlightData.destination==bookingInformation.destination && new Date(apiFlightData.date + " " + apiFlightData.arrivalTime) < new Date(newApiFlightData.date + " " + newApiFlightData.departureTime) && secondFlightFound==false){
+                  let addition: IFlight = {
+                    arrivalTime: new Date(),
+                    date: new Date(),
+                    departureTime: new Date(),
+                    destination: '',
+                    flightNo: '',
+                    name: '',
+                    origin: '',
+                    price: 0,
+                  };
+                  addition.arrivalTime = newApiFlightData.arrivalTime;
+                  addition.date = apiFlightData.date;
+                  addition.departureTime = apiFlightData.departureTime;
+                  addition.destination = newApiFlightData.destination;
+                  addition.flightNo = apiFlightData.flightNo + " " + newApiFlightData.flightNo;
+                  addition.name = apiFlightData.name + " " + newApiFlightData.name;
+                  addition.origin = apiFlightData.origin;
+                  addition.price = apiFlightData.price + newApiFlightData.price;
+                  this._flightData.oneWay.push(addition); //addition
                   this._flightData.oneWay.push(apiFlightData); //first flight
                   this._flightData.oneWay.push(newApiFlightData); //second flight
                   secondFlightFound=true;
@@ -107,7 +127,7 @@ export class FlightService {
       });
     }
 
-    sendResult(result: IFlight[][]){
+    sendResult(result: IFlight[][], bookingInformation: IBookingInformation){
       this._resultSource.next(result);
     }
 }
